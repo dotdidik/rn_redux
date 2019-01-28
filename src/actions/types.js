@@ -1,0 +1,1 @@
+export const AMBIL_DATA = 'AMBIL_DATA'

@@ -1,29 +1,39 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
+import { Image } from 'react-native'
+import { Text, Container, View, Content, Button } from 'native-base';
+import sapiReducer from '../reducers/sapiReducer';
+import { deleteData } from '../actions';
+import Post from './DataRender'
 
-
-import { Text, Container } from 'native-base';
-class DataList extends Component {
-    render() {
-        console.log('hay', this.props.posts)
-        return(
-            <Container>
-                {
-                    this.props.posts.map((post, index)=>
-                        <Text key={index}>
-                            {post.title}
-                        </Text>
-                    )
-                }
-            </Container>
-        )
-    }
+function DataList({ posts, onDelete }) {
+    console.log('ini',posts)
+    return(
+        <Content>
+            {
+                posts.map((post, index)=>
+                    <Post post={post} onDelete={ onDelete } key={index} />
+                )
+            }
+        </Content>
+    )
 }
 
 const mapStateToProps = state => {
-    return { posts: state.posts };
+    return { 
+        posts: state.posts
+    };
 };
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onDelete: id => {
+            dispatch(deleteData(id));
+        }
+    }
+}
 
 export default connect(
     mapStateToProps,
-    )(DataList);
+    mapDispatchToProps
+)(DataList);
